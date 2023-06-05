@@ -1,0 +1,103 @@
+ ONLINESALES.AI 
+
+Task 1: SQL Query to Generate the Report
+To fetch the top 3 departments along with their names and average monthly salaries, you can use the following SQL query:
+
+SELECT DEPT_NAME, AVG(MONTHLY_SALARY) AS AVG_MONTHLY_SALARY
+FROM Employee
+GROUP BY DEPT_NAME
+ORDER BY AVG_MONTHLY_SALARY DESC
+LIMIT 3;
+
+Assuming you have a table named "Employee" with columns "DEPT_NAME" and "MONTHLY_SALARY" containing the department names and monthly salaries respectively.
+Task 2: Scripting to Generate the Report from CSV Files
+Here's an example Python script that reads data from CSV files and generates the same report:
+
+import csv
+
+def generate_report():
+    departments = {}
+    
+    with open('data.csv', 'r') as file:
+        reader = csv.reader(file)
+        next(reader)  # Skip header row
+        for row in reader:
+            department = row[0]
+            salary = float(row[1])
+            if department in departments:
+                departments[department].append(salary)
+            else:
+                departments[department] = [salary]
+    
+    report = []
+    for department, salaries in departments.items():
+        avg_salary = sum(salaries) / len(salaries)
+        report.append((department, avg_salary))
+    
+    report.sort(key=lambda x: x[1], reverse=True)
+    
+    # Print top 3 departments
+    for department, avg_salary in report[:3]:
+        print(department)
+        print(avg_salary)
+        print()
+
+
+Assuming you have a CSV file named "data.csv" with two columns: "DEPT_NAME" and "MONTHLY_SALARY" containing the department names and monthly salaries respectively.
+
+
+
+Task 3: Debugging the Bash/Python Script
+The provided script has a few bugs. Here's the corrected version:
+Script (Bash)
+
+#!/bin/bash
+N=$1
+if [ $N -lt 10 ]
+then
+        OUT=$((N*N))
+elif [ $N -lt 20 ]
+then
+        OUT=1
+        LIM=$((N - 10))
+        for (( i=1; i<=LIM; i++ ))  # Changed '<' to '<='
+        do
+                OUT=$((OUT * i))
+        done
+else
+        LIM=$((N - 20))
+        OUT=$((LIM * LIM))
+        OUT=$((OUT + LIM))  # Changed '-' to '+'
+        OUT=$((OUT / 2))
+fi
+echo $OUT
+
+
+Script (Python)
+
+def compute(n):
+    if n < 10:
+        out = n ** 2
+    elif n < 20:
+        out = 1
+        for i in range(1, n-9):  # Changed 'n-10' to 'n-9'
+            out *= i
+    else:
+        lim = n - 20
+        out = lim * lim
+        out += lim  # Changed '-' to '+'
+        out /= 2  # Changed '=' to '/='
+    print(out)
+
+
+n = int(input("Enter an integer: "))
+compute(n)
+
+
+For the debugging task, some edge cases you could test are:
+* For Task-3 Bash Script: Test inputs less than 10, between 10 and 20, and greater than 20.
+* For Task-3 Python Script: Test inputs less than 10, between 10 and 20, and greater than 20.
+
+
+
+

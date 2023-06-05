@@ -1,0 +1,34 @@
+# Task 2: Scripting to Generate the Report from CSV Files
+# Here's an example Python script that reads data from CSV files and generates the same report:
+
+
+import csv
+
+def generate_report():
+    departments = {}
+    
+    with open('data.csv', 'r') as file:
+        reader = csv.reader(file)
+        next(reader)  # Skip header row
+        for row in reader:
+            department = row[0]
+            salary = float(row[1])
+            if department in departments:
+                departments[department].append(salary)
+            else:
+                departments[department] = [salary]
+    
+    report = []
+    for department, salaries in departments.items():
+        avg_salary = sum(salaries) / len(salaries)
+        report.append((department, avg_salary))
+    
+    report.sort(key=lambda x: x[1], reverse=True)
+    
+    # Print top 3 departments
+    for department, avg_salary in report[:3]:
+        print(department)
+        print(avg_salary)
+        print()
+
+# Assuming you have a CSV file named "data.csv" with two columns: "DEPT_NAME" and "MONTHLY_SALARY" containing the department names and monthly salaries respectively.
